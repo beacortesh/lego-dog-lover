@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEGO® Store - Colección Dog Lover</title>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for LEGO typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. LEGO DESIGN SYSTEM & BASE STYLES
+           ========================================================================== */
+        :root {
+            --lego-red: #E3000B;
+            --lego-red-dark: #A00007;
+            --lego-yellow: #FFD500;
+            --lego-yellow-dark: #CFA800;
+            --lego-blue: #006CB7;
+            --lego-blue-dark: #004A7C;
+            --lego-black: #111111;
+            --lego-white: #FFFFFF;
+            --lego-gray-light: #F4F4F5;
+            --lego-gray-border: #E4E4E7;
+            --font-title: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: #F8F8F9;
+            color: var(--lego-black);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* LEGO Stud Pattern on page background */
+            background-image: radial-gradient(rgba(0, 0, 0, 0.07) 18%, transparent 18%);
+            background-size: 22px 22px;
+            overflow-x: hidden;
+        }
+
+        /* Prevent background scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* ==========================================================================
+           2. LEGO STORE E-COMMERCE NAVBAR & HEADER
+           ========================================================================== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .top-bar {
+            background-color: var(--lego-black);
+            color: var(--lego-white);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 7px 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .main-header {
+            background-color: var(--lego-red);
+            padding: 12px 24px;
+            border-bottom: 4px solid var(--lego-black);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        /* Iconic LEGO Red Logo Square */
+        .lego-brand {
+            background-color: var(--lego-red);
+            padding: 8px 16px;
+            border: 3px solid var(--lego-yellow);
+            outline: 3px solid var(--lego-black);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 3px 3px 0 var(--lego-black);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .lego-brand:hover {
+            transform: scale(1.04);
+        }
+
+        .lego-brand-text {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 2rem;
+            color: var(--lego-yellow);
+            text-shadow: 
+                -2px -2px 0 #000,  
+                 2px -2px 0 #000,
+                -2px  2px 0 #000,
+                 2px  2px 0 #000,
+                 4px  4px 0 #000;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+        }
+
+        nav a {
+            color: var(--lego-white);
+            text-decoration: none;
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Reactivate Modal Button */
+        .btn-reactivate-modal {
+            background-color: var(--lego-yellow);
+            color: var(--lego-black);
+            border: 2px solid var(--lego-black);
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 0.85rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--lego-yellow-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-reactivate-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--lego-yellow-dark);
+            background-color: #ffe033;
+        }
+
+        .btn-reactivate-modal:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 var(--lego-yellow-dark);
+        }
+
+        .header-icon-btn {
+            background: var(--lego-white);
+            border: 2px solid var(--lego-black);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: var(--lego-black);
+            cursor: pointer;
+            box-shadow: 2px 2px 0 var(--lego-black);
+            transition: all 0.15s ease;
+        }
+
+        .header-icon-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 2px 4px 0 var(--lego-black);
+            background-color: var(--lego-yellow);
+        }
+
+        /* ==========================================================================
+           3. STORE BODY & PRODUCT GRID CONTENT
+           ========================================================================== */
+        main {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 30px 20px;
+            flex: 1;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--lego-blue) 0%, #004273 100%);
+            border: 4px solid var(--lego-black);
+            border-radius: 20px;
+            padding: 40px;
+            color: var(--lego-white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 8px 8px 0 var(--lego-black);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-title);
+            font-size: 2.8rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            text-shadow: 3px 3px 0 var(--lego-black);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            max-width: 500px;
+            opacity: 0.95;
+        }
+
+        .product-section-title {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .product-card {
+            background: var(--lego-white);
+            border: 3px solid var(--lego-black);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 5px 5px 0 var(--lego-black);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 5px 9px 0 var(--lego-black);
+        }
+
+        .product-image-wrap {
+            background-color: var(--lego-gray-light);
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 3px solid var(--lego-black);
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--lego-yellow);
+            border: 2px solid var(--lego-black);
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .product-details {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .product-name {
+            font-family: var(--font-title);
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 1.25rem;
+            margin-top: auto;
+            margin-bottom: 12px;
+            color: var(--lego-black);
+        }
+
+        .btn-add-cart {
+            background: var(--lego-yellow);
+            color: var(--lego-black);
+            border: 2px solid var(--lego-black);
+            border-radius: 8px;
+            padding: 10px;
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--lego-yellow-dark);
+            width: 100%;
+            transition: all 0.1s ease;
+        }
+
+        .btn-add-cart:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 var(--lego-yellow-dark);
+        }
+
+        /* ==========================================================================
+           4. PROMOTIONAL POP-UP / MODAL (EXACT REPLICATION OF SKETCH)
+           ========================================================================== */
+        
+        /* Backdrop Overlay */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(17, 17, 17, 0.75);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-backdrop.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal Card Container */
+        .modal-card {
+            background-color: var(--lego-white);
+            border: 5px solid var(--lego-black);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            box-shadow: 12px 12px 0 var(--lego-black);
+            padding: 32px 24px 28px 24px;
+            text-align: center;
+            overflow: visible; /* Allows 'X' button to overhang edge */
+            
+            /* Entry Animation Logic */
+            transform: scale(0.7) translateY(30px);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-backdrop.is-visible .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        /* LEGO Studs Accent Bar on top of Modal */
+        .modal-top-studs {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-stud-brick {
+            width: 22px;
+            height: 8px;
+            background-color: var(--lego-red);
+            border: 2px solid var(--lego-black);
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Close Button 'X' inside circle on Top-Right Corner (Exact Sketch Position) */
+        .modal-close-btn {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 46px;
+            height: 46px;
+            background-color: var(--lego-white);
+            border: 4px solid var(--lego-black);
+            border-radius: 50%;
+            color: var(--lego-black);
+            font-size: 1.4rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 0 var(--lego-black);
+            transition: all 0.15s ease;
+            z-index: 20;
+        }
+
+        .modal-close-btn:hover {
+            background-color: var(--lego-red);
+            color: var(--lego-white);
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .modal-close-btn:active {
+            transform: scale(0.92);
+            box-shadow: 1px 1px 0 var(--lego-black);
+        }
+
+        /* Title: ¡DOG LOVER! */
+        .modal-title {
+            font-family: var(--font-title);
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: var(--lego-black);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 6px;
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        /* Message Text: "Suma una mascota a tu colección personal." */
+        .modal-message {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--lego-black);
+            line-height: 1.35;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        /* Illustration Box */
+        .modal-illustration-container {
+            background: linear-gradient(180deg, #FFFAD1 0%, #FFE97D 100%);
+            border: 3px solid var(--lego-black);
+            border-radius: 18px;
+            padding: 16px 10px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.08);
+        }
+
+        /* Vector Dog Illustration (Directly styled after sketch) */
+        .modal-dog-svg {
+            width: 170px;
+            height: 150px;
+            filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+
+        .modal-illustration-container:hover .modal-dog-svg {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        /* Call To Action Button (Block Style with 3D Relief) */
+        .modal-cta-button {
+            display: block;
+            width: 100%;
+            background-color: var(--lego-yellow);
+            color: var(--lego-black);
+            font-family: var(--font-title);
+            font-weight: 900;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 20px;
+            border: 3px solid var(--lego-black);
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--lego-yellow-dark);
+            text-decoration: none;
+            transition: all 0.12s ease;
+        }
+
+        .modal-cta-button:hover {
+            background-color: #ffe033;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 var(--lego-yellow-dark);
+        }
+
+        .modal-cta-button:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 var(--lego-yellow-dark);
+        }
+
+        /* ==========================================================================
+           5. FOOTER & RESPONSIVE DESIGN
+           ========================================================================== */
+        footer {
+            background-color: var(--lego-black);
+            color: var(--lego-white);
+            padding: 24px 20px;
+            text-align: center;
+            border-top: 4px solid var(--lego-yellow);
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                display: none;
+            }
+
+            .hero-banner {
+                padding: 24px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .modal-card {
+                padding: 28px 18px 20px 18px;
+            }
+
+            .modal-title {
+                font-size: 1.8rem;
+            }
+
+            .modal-message {
+                font-size: 1.05rem;
+            }
+
+            .modal-close-btn {
+                top: -12px;
+                right: -12px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STORE NAVBAR -->
+    <header>
+        <div class="top-bar">
+            ¡ENVÍO GRATIS EN COMPRAS SOBRE $49! | LEGO® OFFICIAL STORE
+        </div>
+        <div class="main-header">
+            <div class="header-container">
+                <a href="#" class="lego-brand" title="LEGO Store">
+                    <span class="lego-brand-text">LEGO</span>
+                </a>
+
+                <nav>
+                    <ul>
+                        <li><a href="#">Sets</a></li>
+                        <li><a href="#">Novedades</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                        <li><a href="#">Comunidad</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-controls">
+                    <!-- Button to re-open the DOG LOVER promotional popup -->
+                    <button class="btn-reactivate-modal" id="openModalBtn">
+                        <i class="fa-solid fa-paw"></i>
+                        <span>Ver Promoción DOG LOVER</span>
+                    </button>
+                    <button class="header-icon-btn" aria-label="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="header-icon-btn" aria-label="Carrito"><i class="fa-solid fa-cart-shopping"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- STORE CONTENT -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-banner">
+            <div class="hero-text">
+                <h1>Colección Dog Lover</h1>
+                <p>Construye, personaliza y celebra a tus mejores amigos peludos con la nueva serie de animales LEGO®.</p>
+                <button class="btn-reactivate-modal" style="font-size: 1rem; padding: 12px 24px;" onclick="openModal()">
+                    Explorar Promoción Especial
+                </button>
+            </div>
+            <div style="font-size: 7rem; color: var(--lego-yellow); text-shadow: 4px 4px 0 #000;">
+                <i class="fa-solid fa-dog"></i>
+            </div>
+        </section>
+
+        <!-- Product Grid -->
+        <h2 class="product-section-title">
+            <i class="fa-solid fa-bone" style="color: var(--lego-red);"></i>
+            Sets Destacados de Mascotas
+        </h2>
+
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <article class="product-card">
+                <div class="product-image-wrap">
+                    <span class="product-badge">Nuevo</span>
+                    <svg viewBox="0 0 100 100" style="width: 100px; height: 100px;">
+                        <rect x="25" y="35" width="50" height="40" rx="6" fill="#E3000B" stroke="#000" stroke-width="3"/>
+                        <circle cx="38" cy="48" r="5" fill="#000"/>
+                        <circle cx="62" cy="48" r="5" fill="#000"/>
+                        <path d="M 42 62 Q 50 70 58 62" stroke="#000" stroke-width="3" fill="none"/>
+                        <rect x="14" y="25" width="16" height="26" rx="6" fill="#FFD500" stroke="#000" stroke-width="3"/>
+                        <rect x="70" y="25" width="16" height="26" rx="6" fill="#FFD500" stroke="#000" stroke-width="3"/>
+                    </svg>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-name">Perros Adorables 3en1</h3>
+                    <div class="product-price">$29.99</div>
+                    <button class="btn-add-cart">Agregar al Carrito</button>
+                </div>
+            </article>
+
+            <!-- Product 2 -->
+            <article class="product-card">
+                <div class="product-image-wrap">
+                    <span class="product-badge">Popular</span>
+                    <svg viewBox="0 0 100 100" style="width: 100px; height: 100px;">
+                        <rect x="20" y="30" width="60" height="45" rx="8" fill="#006CB7" stroke="#000" stroke-width="3"/>
+                        <circle cx="40" cy="45" r="6" fill="#FFF" stroke="#000" stroke-width="2"/>
+                        <circle cx="60" cy="45" r="6" fill="#FFF" stroke="#000" stroke-width="2"/>
+                        <ellipse cx="50" cy="58" rx="8" ry="5" fill="#FFD500" stroke="#000" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-name">BrickHeadz Pastor Alemán</h3>
+                    <div class="product-price">$14.99</div>
+                    <button class="btn-add-cart">Agregar al Carrito</button>
+                </div>
+            </article>
+
+            <!-- Product 3 -->
+            <article class="product-card">
+                <div class="product-image-wrap">
+                    <svg viewBox="0 0 100 100" style="width: 100px; height: 100px;">
+                        <rect x="30" y="25" width="40" height="50" rx="8" fill="#FFD500" stroke="#000" stroke-width="3"/>
+                        <circle cx="42" cy="40" r="4" fill="#000"/>
+                        <circle cx="58" cy="40" r="4" fill="#000"/>
+                        <path d="M 45 52 Q 50 58 55 52" stroke="#000" stroke-width="3" fill="none"/>
+                    </svg>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-name">Centro de Mascotas LEGO®</h3>
+                    <div class="product-price">$59.99</div>
+                    <button class="btn-add-cart">Agregar al Carrito</button>
+                </div>
+            </article>
+
+            <!-- Product 4 -->
+            <article class="product-card">
+                <div class="product-image-wrap">
+                    <svg viewBox="0 0 100 100" style="width: 100px; height: 100px;">
+                        <rect x="25" y="30" width="50" height="40" rx="10" fill="#52525B" stroke="#000" stroke-width="3"/>
+                        <circle cx="38" cy="45" r="5" fill="#FFF" stroke="#000" stroke-width="2"/>
+                        <circle cx="62" cy="45" r="5" fill="#FFF" stroke="#000" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="product-details">
+                    <h3 class="product-name">Bulldog Francés de Bloques</h3>
+                    <div class="product-price">$49.99</div>
+                    <button class="btn-add-cart">Agregar al Carrito</button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>LEGO, el logotipo de LEGO y las Minifiguras son marcas registradas de The LEGO Group. © 2026 The LEGO Group.</p>
+    </footer>
+
+
+    <!-- ==========================================================================
+         6. AUTOMATIC POP-UP / MODAL OVERLAY (REPLICATING PAPER SKETCH)
+         ========================================================================== -->
+    <div class="modal-backdrop" id="promoModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        
+        <div class="modal-card">
+            
+            <!-- LEGO Brick Studs Top Accent -->
+            <div class="modal-top-studs">
+                <div class="modal-stud-brick"></div>
+                <div class="modal-stud-brick"></div>
+                <div class="modal-stud-brick"></div>
+            </div>
+
+            <!-- 'X' Close Button Circular Badge Top-Right (Positioned exactly as in paper sketch) -->
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Cerrar ventana emergente">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Sketch Title: ¡DOG LOVER! -->
+            <h2 class="modal-title" id="modalTitle">¡DOG LOVER!</h2>
+
+            <!-- Sketch Main Message/Copy -->
+            <p class="modal-message">
+                Suma una mascota a tu colección personal.
+            </p>
+
+            <!-- Sketch Dog Illustration (SVG recreating hand-drawn dog head) -->
+            <div class="modal-illustration-container">
+                <svg class="modal-dog-svg" viewBox="0 0 200 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Left Floppy Ear -->
+                    <path d="M 52 48 C 22 48, 10 90, 20 120 C 26 136, 46 136, 54 110 C 60 90, 56 58, 52 48 Z" 
+                          fill="#FFD500" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+                    
+                    <!-- Right Floppy Ear -->
+                    <path d="M 148 48 C 178 48, 190 90, 180 120 C 174 136, 154 136, 146 110 C 140 90, 144 58, 148 48 Z" 
+                          fill="#FFD500" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+
+                    <!-- Main Dog Face Contour -->
+                    <path d="M 60 38 L 140 38 C 162 38, 168 112, 140 142 C 116 162, 84 162, 60 142 C 32 112, 38 38, 60 38 Z" 
+                          fill="#FFFFFF" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
+
+                    <!-- Red LEGO Bricks Studs on Head -->
+                    <rect x="74" y="26" width="20" height="12" rx="3" fill="#E3000B" stroke="#111111" stroke-width="4"/>
+                    <rect x="106" y="26" width="20" height="12" rx="3" fill="#E3000B" stroke="#111111" stroke-width="4"/>
+
+                    <!-- Expressive Dog Eyes -->
+                    <ellipse cx="78" cy="74" rx="14" ry="16" fill="#111111"/>
+                    <circle cx="74" cy="69" r="5" fill="#FFFFFF"/>
+                    
+                    <ellipse cx="122" cy="74" rx="14" ry="16" fill="#111111"/>
+                    <circle cx="118" cy="69" r="5" fill="#FFFFFF"/>
+
+                    <!-- Nose Block -->
+                    <path d="M 90 94 L 110 94 L 105 107 L 95 107 Z" fill="#E3000B" stroke="#111111" stroke-width="4" stroke-linejoin="round"/>
+
+                    <!-- Mouth & Whiskers -->
+                    <path d="M 100 107 L 100 120" stroke="#111111" stroke-width="4"/>
+                    <path d="M 100 120 Q 85 130 75 118" stroke="#111111" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path d="M 100 120 Q 115 130 125 118" stroke="#111111" stroke-width="4" fill="none" stroke-linecap="round"/>
+
+                    <!-- Cute Tongue Out (Matching Sketch) -->
+                    <path d="M 93 122 C 93 140, 107 140, 107 122 Z" fill="#E3000B" stroke="#111111" stroke-width="4"/>
+                </svg>
+            </div>
+
+            <!-- Sketch Call to Action Button -->
+            <a href="#" class="modal-cta-button" id="modalCtaBtn">
+                Explorar colección
+            </a>
+
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         7. JAVASCRIPT FOR MODAL BEHAVIOR & INTERACTION
+         ========================================================================== -->
+    <script>
+        // DOM Element references
+        const modalBackdrop = document.getElementById('promoModalBackdrop');
+        const closeModalBtn = document.getElementById('modalCloseBtn');
+        const openModalBtn = document.getElementById('openModalBtn');
+        const modalCtaBtn = document.getElementById('modalCtaBtn');
+
+        /**
+         * Opens the promotional modal
+         */
+        function openModal() {
+            modalBackdrop.classList.add('is-visible');
+            document.body.classList.add('modal-open');
+        }
+
+        /**
+         * Closes the promotional modal
+         */
+        function closeModal() {
+            modalBackdrop.classList.remove('is-visible');
+            document.body.classList.remove('modal-open');
+        }
+
+        // 1. Automatically open popup when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // Slight delay (400ms) for smooth visual entrance after render
+            setTimeout(() => {
+                openModal();
+            }, 400);
+        });
+
+        // 2. Close when clicking the 'X' button
+        closeModalBtn.addEventListener('click', closeModal);
+
+        // 3. Close when clicking outside the modal card (on the backdrop overlay)
+        modalBackdrop.addEventListener('click', (event) => {
+            if (event.target === modalBackdrop) {
+                closeModal();
+            }
+        });
+
+        // 4. Close when pressing the 'ESC' key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modalBackdrop.classList.contains('is-visible')) {
+                closeModal();
+            }
+        });
+
+        // 5. Re-open modal button in the navbar
+        openModalBtn.addEventListener('click', openModal);
+
+        // 6. Action on CTA Button click
+        modalCtaBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeModal();
+            // Scroll down smoothly to product grid
+            document.querySelector('.product-grid').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
